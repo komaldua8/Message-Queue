@@ -6,8 +6,8 @@ import java.util.concurrent.*;
 public class MessageBrokerServer {
     private static final int PORT = 5050;
     private static final int MAX_CLIENTS = 10;
-    private MessageQueue messageQueue = new MessageQueue();
-    private ExecutorService clientPool = Executors.newFixedThreadPool(MAX_CLIENTS);
+    private final MessageQueue messageQueue = new MessageQueue();
+    private final ExecutorService clientPool = Executors.newFixedThreadPool(MAX_CLIENTS);
     private final Map<Socket, PendingMessage> pendingAcks = new ConcurrentHashMap<>();
 
     public void start() {
@@ -36,9 +36,9 @@ public class MessageBrokerServer {
 
     // Inner class: handles each connected client
     private static class ClientHandler implements Runnable {
-        private Socket socket;
-        private MessageQueue messageQueue;
-        private Map<Socket, PendingMessage> pendingAcks;
+        private final Socket socket;
+        private final MessageQueue messageQueue;
+        private final Map<Socket, PendingMessage> pendingAcks;
 
         public ClientHandler(Socket socket, MessageQueue queue, Map<Socket, PendingMessage> pendingAcks) {
             this.socket = socket;

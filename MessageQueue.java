@@ -6,8 +6,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class MessageQueue {
     private Queue<Message> queue = new LinkedList<>();
-    private Lock lock = new ReentrantLock();
-    private Condition condition = lock.newCondition();
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition = lock.newCondition();
     public void enqueue(Message message) {
         lock.lock();
         try {
