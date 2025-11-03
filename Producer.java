@@ -8,7 +8,6 @@ public class Producer {
              PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              Scanner scanner = new Scanner(System.in)) {
-
             System.out.println("Connected as Producer. Type messages to send:");
 
             while (true) {
@@ -19,7 +18,7 @@ public class Producer {
                 }
 
                 writer.println("SEND " + input);
-                System.out.println(reader.readLine()); // Read ACK
+                System.out.println(reader.readLine()); 
             }
 
         } catch (IOException e) {

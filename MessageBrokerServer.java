@@ -23,8 +23,6 @@ public class MessageBrokerServer {
             e.printStackTrace();
         }
     }
-
-    // Inner class: stores message awaiting ACK
     private static class PendingMessage {
         Message message;
         long timestamp;
@@ -34,7 +32,6 @@ public class MessageBrokerServer {
         }
     }
 
-    // Inner class: handles each connected client
     private static class ClientHandler implements Runnable {
         private final Socket socket;
         private final MessageQueue messageQueue;
@@ -66,10 +63,7 @@ public class MessageBrokerServer {
                         Message message = messageQueue.dequeue();
                         writer.println("MESSAGE: " + message.getPayload());
 
-                        // Track for ACK
                         pendingAcks.put(socket, new PendingMessage(message, System.currentTimeMillis()));
-
-                        // Start timeout watcher
                         new Thread(() -> {
                             try {
                                 Thread.sleep(5000); // 5 seconds timeout
@@ -98,7 +92,6 @@ public class MessageBrokerServer {
                 }
             } catch (Exception e) {
                 System.out.println("Client disconnected unexpectedly.");
-                // If client disconnects with pending message, requeue it
                 PendingMessage pending = pendingAcks.remove(socket);
                 if (pending != null) {
                     System.out.println("Requeuing due to disconnect: " + pending.message.getPayload());

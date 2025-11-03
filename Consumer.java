@@ -17,15 +17,12 @@ public class Consumer{
                 String response = reader.readLine();
 
                 if (response != null && response.startsWith("MESSAGE")) {
-                    String message = response.substring(9); // after "MESSAGE: "
+                    String message = response.substring(9);
                     System.out.println("Received: " + message);
-
-                    // Simulate processing and send ACK
-                    Thread.sleep(2000); // simulate work
+                    Thread.sleep(2000); 
                     writer.println("ACK");
                     System.out.println("ACK sent for: " + message);
                 }
-
                 Thread.sleep(1000);
             }
 
