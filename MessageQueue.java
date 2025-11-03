@@ -1,36 +1,31 @@
-public class MessageQueue<T>{
-    private final Object[] buffer;
-    private int head=0;
-    private int tail=0;
-    private int size=0; //number of elements
-    private final int capacity;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-    public MessageQueue(int capacity){
-        if(capacity<=0) throw new IllegalArgumentException("Capacity must be > 0");
-        this.capacity=capacity;
-        this.buffer=new Object[capacity];
-    }
-    public synchronized void put(T msg) throws InterruptedException{
-        while(size==capacity){
-            wait();
+public class MessageQueue {
+    private Queue<Message> queue = new LinkedList<>();
+    private Lock lock = new ReentrantLock();
+    private Condition condition = lock.newCondition();
+    public void enqueue(Message message) {
+        lock.lock();
+        try {
+            queue.add(message);
+            condition.signal();
+        } finally {
+            lock.unlock();
         }
-        buffer[tail]=msg;
-        tail=(tail+1)%capacity;
-        size++;
-        notifyAll();
     }
-    public synchronized T take() throws InterruptedException{
-        while(size==0){
-            wait();
+    public Message dequeue() throws InterruptedException {
+        lock.lock();
+        try {
+            while (queue.isEmpty()) {
+                condition.await();
+            }
+            return queue.poll();
+        } finally {
+            lock.unlock();
         }
-        T msg = (T) buffer[head];
-        buffer[head]=null;
-        head=(head+1)%capacity;
-        size--;
-        notifyAll();
-        return msg;
-    }
-    public synchronized int size() {
-        return size;
     }
 }
