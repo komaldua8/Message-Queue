@@ -1,7 +1,10 @@
+package com.messagebroker.server;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
+import com.messagebroker.queue.MessageQueue;
+import com.messagebroker.model.Message;
 
 public class MessageBrokerServer {
     private static final int PORT = 5050;
