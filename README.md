@@ -48,39 +48,52 @@ A multi-stage project implementing a lightweight **Message Queue & Broker System
 1. **Compile all Java files**
 
    ```bash
-   javac *.java
+   mvn clean compile
+   mvn clean package
    ```
 
-2. **Run the broker server**
+2. **Run the JAR file**
 
    ```bash
-   java MessageBrokerServer
+   java -jar target/message-broker-1.0-SNAPSHOT-jar-with-dependencies.jar
+   ```
+
+3. **Run the broker server**
+
+   ```bash
+   cd message-broker
+   mvn -q exec:java -Dexec.mainClass="com.messagebroker.server.Producer"
+   SEND hello
    ```
 
    Server starts on port **5050**.
 
-3. **Test**
+4. **Test: Open separate Terminals for Producer and Consumer**
 
    * **Producer:**
 
      ```
-     java Producer
-     SEND Hello
+     cd message-broker
+     mvn -q exec:java -Dexec.mainClass="com.messagebroker.server.Producer"
+     SEND hello
      ```
    * **Consumer:**
 
      ```
-     java Consumer
-     RECEIVE
+     cd message-broker
+     mvn -q exec:java -Dexec.mainClass="com.messagebroker.server.Consumer"
      ```
 
 ---
 
 ## 🧰 Tech Stack
 
-* `java.net` (Sockets)
-* `ExecutorService`
-* `BlockingQueue`
+* Programming Language: Java
+* Build & Dependency Management: Apache Maven ->Handles project structure (pom.xml)
+* Networking & Communication: TCP Sockets
+* Concurrency: Executor Service/ Thread Pool-> Supports async processing & ACK timeout recovery
+* Data Structures: Custom Message Queue, Concurrent Hashmap
+* Packaging: Maven Assembly Plugin-> builds JAR and adds class manifest
 
 ---
 
