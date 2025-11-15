@@ -1,1 +1,8 @@
-com/messagebroker/App.class
+com/messagebroker/server/MessageBrokerServer.class
+com/messagebroker/server/MessageBrokerServer$PendingMessage.class
+com/messagebroker/Main.class
+com/messagebroker/model/Message.class
+com/messagebroker/queue/MessageQueue.class
+com/messagebroker/server/Consumer.class
+com/messagebroker/server/Producer.class
+com/messagebroker/server/MessageBrokerServer$ClientHandler.class

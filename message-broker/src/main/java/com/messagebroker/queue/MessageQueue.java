@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.messagebroker.model.Message;
 
 public class MessageQueue {
-    private Queue<Message> queue = new LinkedList<>();
+    private final Queue<Message> queue = new LinkedList<>();
     private final Lock lock = new ReentrantLock();
     private final Condition condition = lock.newCondition();
     public void enqueue(Message message) {
