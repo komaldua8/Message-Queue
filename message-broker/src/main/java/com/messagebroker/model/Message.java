@@ -1,3 +1,4 @@
+package com.messagebroker.model;
 public class Message {
     public int messageType;
     public String payload;
